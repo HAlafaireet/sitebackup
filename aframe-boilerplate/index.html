@@ -2,12 +2,15 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
     <a-scene>
       <a-ring color="teal" radius-inner="1" radius-outer="2" scale="2 2 2" position="0 2 -10">
           <a-sphere position="1 0 3"></a-sphere>
       </a-ring>
+      <!-- Out of the box environment! -->
+      <a-entity environment="preset: forest; dressingAmount: 500"></a-entity>
     </a-scene>
   </body>
 </html>
