@@ -17,6 +17,17 @@
 <body style='margin : 0px; overflow: hidden;'>
   <a-scene embedded arjs>
       <a-image id="left-tile" class="tile" position="2.5 -2 -8" src="Assets/UI/Icons/1x Sized/New_path.png" width="2" height="1"></a-image>
+      <a-image id="left-tile" class="tile" position="0 -2 -8" src="Assets/UI/Icons/1x Sized/Current Location.png" width="2" height="1">
+        <a-animation
+                    attribute="visible"
+                    dur="5000"
+                    from="true"
+                    to="false"
+                    delay="500"
+                    easing="linear"
+                    repeat="indefinite">
+        </a-animation>
+      </a-image>
     <!-- create your content here. just a box for now -->
     <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
     <!-- define a camera which will move according to the marker position -->
