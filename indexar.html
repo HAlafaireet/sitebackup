@@ -19,7 +19,7 @@
           var el = this.el;
           var el2 = document.getElementById("tester")
           el.addEventListener('trackpaddown', function (evt) {
-            el2.setAttribute('visible', !el2.getAttribute('visible'));
+            el.setAttribute('visible', !el.getAttribute('visible'));
             console.log('Detected Mouse-cursor click');
           });
         }
@@ -43,10 +43,9 @@
     <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
     <!-- define a camera which will move according to the marker position -->
     <a-marker-camera preset='hiro'></a-marker-camera>
-    <a-entity gearvr-controls make-invisible-on-press 
-    ></a-entity>
+    <a-entity gearvr-controls></a-entity>
     <a-entity id=tester position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-    material="color: black; shader: flat" ></a-entity>
+    material="color: black; shader: flat" make-invisible-on-press ></a-entity>
     <!----<a-entity cursor="fuse: true; fuseTimeout: 500"
             position="0 0 -1"
             geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
