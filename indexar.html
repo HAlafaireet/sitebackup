@@ -18,7 +18,7 @@
         init: function () {
           var el = this.el;
           var el2 = document.getElementById("tester")
-          el.addEventListener('trackpaddown', function (evt) {
+          el.addEventListener('trackpadchanged', function (evt) {
             el.setAttribute('visible', !el.getAttribute('visible'));
             console.log('Detected Mouse-cursor click');
           });
