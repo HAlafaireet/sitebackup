@@ -8,22 +8,43 @@
       AFRAME.registerComponent('make-invisible-on-press', {
         init: function () {
           var el = this.el;
+          var el1 = document.getElementById("ui1");
+          var el2 = document.getElementById("ui2");
+          var el3 = document.getElementById("ui3");
+          var counter=2;
+          console.log(el1);
           el.addEventListener('mousedown', function (evt) {
-            el.setAttribute('visible', !el.getAttribute('visible'));
-            console.log('Detected Mouse-cursor click');
+            switch(counter){
+              case 1:
+                el1.setAttribute('visible','true');
+                el2.setAttribute('visible','false');
+                el3.setAttribute('visible','false');
+                break;
+              case 2:
+                el1.setAttribute('visible','false');
+                el2.setAttribute('visible','true');
+                el3.setAttribute('visible','false');
+                break;  
+              case 3:
+                el1.setAttribute('visible','false');
+                el2.setAttribute('visible','false');
+                el3.setAttribute('visible','true');
+                break;
+            }
+            if (counter >=3)
+            {
+              counter=1;
+            }
+            else 
+            {
+              counter++;
+            }
+            //el.setAttribute('visible', !el.getAttribute('visible'));
+            //console.log('Detected Mouse-cursor click');
           });
         }
       });
-     // AFRAME.registerComponent('make-invisible-on-press', {
-       // init: function () {
-         // var el = this.el;
-         // var el2 = document.getElementById("tester")
-         // el.addEventListener('trackpadchanged', function (evt) {
-           // el.setAttribute('visible', !el.getAttribute('visible'));
-           // console.log('Detected Mouse-cursor click');
-          //});
-        //}
-      //});
+     
 </script>
 <body style='margin : 0px; overflow: hidden;'>
   <a-scene embedded arjs>
@@ -39,13 +60,16 @@
                     repeat="indefinite">
         </a-animation>
       </a-image>
+      <a-image id="ui1" class="tile" position="0 0 -8" src="Assets/UI/Screens/2x Sized/Screen 1@2x.png" width="2" height="3"></a-image>
+      <a-image id="ui2" visible="false" class="tile" position="0 0 -8" src="Assets/UI/Screens/2x Sized/Screen 2@2x.png" width="2" height="3"></a-image>
+      <a-image id="ui3" visible="false" class="tile" position="0 0 -8" src="Assets/UI/Screens/2x Sized/Screen 3@2x.png" width="2" height="3"></a-image>
     <!-- create your content here. just a box for now -->
     <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
     <!-- define a camera which will move according to the marker position -->
     <a-marker-camera preset='hiro'></a-marker-camera>
     <!--<a-entity gearvr-controls></a-entity>-->
 
-    <a-entity cursor="fuse: true; fuseTimeout: 500"
+    <a-entity cursor="fuse: true; fuseTimeout: 500"  visible="false"
             position="0 0 -1"
             geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
             material="color: black; shader: flat" make-invisible-on-press>
