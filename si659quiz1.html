@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <video autoplay></video>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+     <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+     <script>
+      const constraints = {
+        video: true
+      };
+      
+      const video = document.querySelector('video');
+      const canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      
+      navigator.mediaDevices.getUserMedia(constraints).
+        then((stream) => {video.srcObject = stream});
+
+      window.onload=function() {
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      console.log(canvas.width);
+      //canvas.getContext('2d').drawImage(video, 0, 0);
+      //ctx=canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      }
+    function pick(event) {
+      console.log("firing event");
+      var x = event.layerX;
+      var y = event.layerY;
+      var pixel = ctx.getImageData(x, y, 1, 1);
+      var data = pixel.data;
+      var rgba = 'rgba(' + data[0] + ', ' + data[1] +
+                ', ' + data[2] + ', ' + (data[3] / 255) + ')';
+      color.style.background =  rgba;
+      color.textContent = rgba;
+      console.log(rgba);
+
+
+      var apx=ctx.getImageData(0,0,canvas.width,canvas.height);
+     
+      var l=apx.data.length;
+      console.log("got here2");
+      for (let i = 0; i < l; i++) {
+        let rgbtest= 'rgba(' + apx.data[0] + ', ' + apx.data[1] +
+                ', ' + apx.data[2] + ', ' + (apx.data[3] / 255) + ')';
+        if (rgba==rgbtest)
+          console.log("firing replace")
+          apx.data[i * 4 + 0] = 0;
+          apx.data[i * 4 + 1] = 0;
+          apx.data[i * 4 + 2] = 0;
+       }
+
+
+      
+    }
+    video.addEventListener( "loadedmetadata", function (e) {
+     canvas.width = this.videoWidth,
+        canvas.height = this.videoHeight;
+}, false );
+    video.addEventListener('click', pick);
+      </script>
+
+  </head>
+  <body>
+    <div id="color" style="width:200px;height:50px;float:left"></div>
+  </body>
+</html>
+   

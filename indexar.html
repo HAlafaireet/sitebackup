@@ -11,6 +11,11 @@
           var el1 = document.getElementById("ui1");
           var el2 = document.getElementById("ui2");
           var el3 = document.getElementById("ui3");
+          //var el4 = document.getElementById("ui4");
+          //var el5 = document.getElementById("ui5");
+          //var el6 = document.getElementById("ui6");
+          //var el7 = document.getElementById("ui7");
+          //var el8 = document.getElementById("ui8");
           var counter=2;
           console.log(el1);
           el.addEventListener('mousedown', function (evt) {
@@ -60,7 +65,10 @@
                     repeat="indefinite">
         </a-animation>
       </a-image>
-      <a-image id="ui1" class="tile" position="0 0 -8" src="Assets/UI/Screens/2x Sized/Screen 1@2x.png" width="2" height="3"></a-image>
+      <a-entity id="ui1">
+        <a-image class="tile" position="0 0 -8" src="Assets/UI/demo_icons/02_Upcoming_class.png" width="2" height="3"></a-image>
+      </a-entity>
+      
       <a-image id="ui2" visible="false" class="tile" position="0 0 -8" src="Assets/UI/Screens/2x Sized/Screen 2@2x.png" width="2" height="3"></a-image>
       <a-image id="ui3" visible="false" class="tile" position="0 0 -8" src="Assets/UI/Screens/2x Sized/Screen 3@2x.png" width="2" height="3"></a-image>
     <!-- create your content here. just a box for now -->
