@@ -1,0 +1,83 @@
+<html>
+
+<head>
+  <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+  <script src="https://rawgit.com/Utopiah/googlepoly-load-component/master/googlepoly-load-component.js"></script>
+  <!--environment script from https://www.npmjs.com/package/aframe-environment-component-->
+<script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+
+<script>
+AFRAME.registerComponent('fuse_jack-listener', {
+    init: function () {
+        this.el.addEventListener('click', function (evt) {
+            this.emit('fuse_jack');
+            console.log('I was clicked at: ', evt.detail.intersection.point);
+    });
+        
+    }
+  });
+</script>
+
+<script>
+
+AFRAME.registerComponent('fuse_wp-listener', {
+    init: function () {
+        let camera = document.querySelector("#camera");
+        let waypoint = document.querySelector("#waypoint");
+        //attach gaze fuse handle to waypoint
+        waypoint.addEventListener("click", function(e) {
+        //move the camera rig to the new location
+        console.log('Teleporter was clicked at: ');
+        camera.setAttribute("position", this.getAttribute("position"));
+        }); 
+    }
+  });
+</script>
+
+
+</head>
+
+<body>
+    <a-scene>
+        <a-asset>
+            <!--haunted house model by Maker Moose at https://sketchfab.com/models/8278ebd4786c462cb2621385a91ee365-->    
+            <a-asset-item id="hhouse" src="Assets/SI659_Assets/haunted_house/scene.gltf"></a-asset-item>
+
+        </a-asset>
+
+        <a-entity gltf-model=#hhouse position="0 0 -20" scale=".5 .5 .5"></a-entity>
+        <a-entity environment= "preset: starry"></a-entity>
+        <!--pumpkin head model by Rafi Ankur at https://poly.google.com/view/0a_bBJno-ZL-->
+        <a-entity id = "jack" fuse_jack-listener position="-1 2 -10" scale="3 3 3" rotation="0 0 0" gpoly="polyid:0a_bBJno-ZL; API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo;" shadow>
+            <a-animation attribute="rotation"
+               dur="10000"
+               fill="forwards"
+               from="0 0 0 "
+               to="45 45 0"
+               begin="fuse_jack"></a-animation> 
+
+        
+
+        </a-entity>
+
+        <a-light type="ambient" color="#222" intensity="7.0"></a-light>
+        <a-light color="red" position="0 0 -5" intensity="10.0"></a-light>
+
+        <a-entity camera look-controls id="camera">
+            <a-entity cursor="fuse: true; fuseTimeout: 500"
+                      position="0 0 -1"
+                      geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                      material="color: black; shader: flat">
+            </a-entity>
+          </a-entity>
+
+
+          <a-plane id="waypoint" fuse_wp-listener position="17.62119 0.12396 -3.1049" rotation="-180 90 0" width="5" height="10" color="green" material="" geometry=""></a-plane>
+
+
+    
+    </a-scene>
+</body>
+
+
+</html>
