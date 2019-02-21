@@ -12,6 +12,8 @@
 
 <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
 
+<script src="//unpkg.com/aframe-event-set-component@4.0.1/dist/aframe-event-set-component.min.js"></script>
+
 <script>
 AFRAME.registerComponent('fuse_jack-listener', {
     init: function () {
@@ -64,6 +66,29 @@ AFRAME.registerComponent('fuse_wp-listener', {
 </script>
 
 
+<script>
+    // turn controller's physics presence on only while button held down
+    AFRAME.registerComponent("phase-shift", {
+      init: function() {
+        console.warn("installing phase shift");
+        var el = this.el;
+        el.addEventListener("gripdown", function() {
+          el.setAttribute("collision-filter", {
+            collisionForces: true
+          });
+          console.log("Physics hand active!");
+        });
+        el.addEventListener("gripup", function() {
+          el.setAttribute("collision-filter", {
+            collisionForces: false
+          });
+          console.log("Physics hand inactive!");
+        });
+      }
+    });
+  </script>
+
+
 </head>
 
 <body>
@@ -81,6 +106,14 @@ AFRAME.registerComponent('fuse_wp-listener', {
             <!-- Zombie Snarl audio by gneube at https://freesound.org/people/gneube/sounds/315844/-->
             <audio id="zombie_snarl" src="Assets/SI659_Assets/315844__gneube__zombie-snarl.wav" crossorigin="anonymous"></audio>
 
+            <!--Touch mixin taken from M. Nebelings example at https://codepen.io/mnebeling/pen/qLQjLJ-->
+            <a-mixin id="touch" physics-collider phase-shift collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.02" super-hands="colliderEvent: collisions;     colliderEventProperty: els; colliderEndEvent: collisions; colliderEndEventProperty: clearedEls;">
+              </a-mixin>
+
+              <a-mixin id="touchme"  hoverable grabbable stretchable draggable
+              event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true"
+              event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"></a-mixin>
+
 
         </a-asset>
 
@@ -88,15 +121,20 @@ AFRAME.registerComponent('fuse_wp-listener', {
         <a-entity environment= "preset: starry"></a-entity>
 
 
-        <!--pumpkin head model by Rafi Ankur at https://poly.google.com/view/cggu6F8hvCm-->
-        <a-entity id = "jack" fuse_jack-listener dynamic-body mass="165" position="0 1.87 -2.31" scale=".01 .01 .01" gpoly="polyid:cggu6F8hvCm; API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo;" shadow="cast: true" hoverable grabbable>
+       <!-- <a-box id = "jack2" dynamic-body mixin="touchme" mass="1" position="0 1 -1.5" scale="2 2 1" shadow="cast: true">
             <a-animation attribute="rotation"
                dur="1000"
                to="0 360 0"
                easing="linear"
                begin="fuse_jack">
             </a-animation>
-        </a-entity>
+        </a-box>-->
+
+
+
+        <!--pumpkin head model by Rafi Ankur at https://poly.google.com/view/cggu6F8hvCm-->
+        <a-entity id = "jack" fuse_jack-listener dynamic-body mixin="touchme" mass="1" position="0 1 -1" scale=".005 .005 .005" gpoly="polyid:cggu6F8hvCm; API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo;" shadow="cast: true">
+      </a-entity>  
 
         <!--gravestone model by Ian MacGillivray at https://poly.google.com/view/fCeGs6ZRSVp-->
         <a-entity id = "gravestone" fuse_gs-listener position="15.62119 -.1 -5.1049" scale="1 1 1" rotation="0 -120 0" gpoly="polyid:fCeGs6ZRSVp; API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo;" shadow="cast: true" sound="src: #zombie_snarl; on: click; volume: 3; poolSize: 3">
@@ -116,7 +154,8 @@ AFRAME.registerComponent('fuse_wp-listener', {
         <a-entity id="lantern_left" position="-3.8008 6.3368 -13.19289" gpoly="polyid:6lpNbvA7Mj8;API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo" shadow="" obj-model="obj:https://poly.googleapis.com/downloads/6lpNbvA7Mj8/fxYBG8niUK9/model.obj;mtl:https://poly.googleapis.com/downloads/6lpNbvA7Mj8/fxYBG8niUK9/materials.mtl"></a-entity>
         <a-entity id="lantern_right" position="6.77346 6.3368 -13.19289" gpoly="polyid:6lpNbvA7Mj8;API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo" shadow="" obj-model="obj:https://poly.googleapis.com/downloads/6lpNbvA7Mj8/fxYBG8niUK9/model.obj;mtl:https://poly.googleapis.com/downloads/6lpNbvA7Mj8/fxYBG8niUK9/materials.mtl"></a-entity>
         
-        
+          <!-- ground collider keeps objets from falling -->
+      <a-box static-body width=100 height=0.001 depth=100 visible="false"></a-box>
 
         <a-light type="ambient" color="#222" intensity="2.0"></a-light>
         <a-light id="light_left" color="yellow" position="-3.55553 6.96878 -11.48506" intensity="1.5" light="type:point; castShadow:true shadowCameraVisible: true"></a-light>
@@ -145,7 +184,7 @@ AFRAME.registerComponent('fuse_wp-listener', {
 
           </a-box>
 
-          <a-box id="waypoint_start" fuse_wp-listener position="0 1 0" rotation="-180 90 0" width="2" height="2" color="green" material="" geometry="">
+         <!-- <a-box id="waypoint_start" fuse_wp-listener position="0 1 0" rotation="-180 90 0" width="1" height="1" color="green" material="opacity:0.75" geometry="">
             <a-animation attribute="position"
             dur="1000"
             to="0 1.4 0"
@@ -153,7 +192,7 @@ AFRAME.registerComponent('fuse_wp-listener', {
             direction="alternate"
             repeat="indefinite">
          </a-animation>
-          </a-box>
+          </a-box>-->
 
           <a-box id="waypoint_2" fuse_wp-listener position="-17.62119 2.12396 -3.1049" rotation="-180 90 0" width="2" height="2" color="red" material="" geometry="" shadow="cast:true">
             <a-animation attribute="position"
