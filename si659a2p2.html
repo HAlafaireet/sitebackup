@@ -63,8 +63,7 @@ AFRAME.registerComponent('fuse_wp-listener', {
 </head>
 
 <body>
-    <a-scene>
-    <!---<a-scene sound="src: #ghost_party; loop: true; on: click; rolloffFactor: 0; volume:0.3">-->
+    <a-scene sound="src: #ghost_party; loop: true; on: click; rolloffFactor: 0; volume:0.3">
         <a-asset>
             <!--haunted house model by Maker Moose at https://sketchfab.com/models/8278ebd4786c462cb2621385a91ee365-->    
             <a-asset-item id="hhouse" src="Assets/SI659_Assets/haunted_house/scene.gltf"></a-asset-item>
@@ -82,6 +81,8 @@ AFRAME.registerComponent('fuse_wp-listener', {
 
         <a-entity gltf-model=#hhouse position="0 0 -20" scale=".5 .5 .5" shadow="receive: true; cast:false"></a-entity>
         <a-entity environment= "preset: starry"></a-entity>
+
+        <a-text value="Sainy Alafaireet" position="-1 3 -4"></a-text>
 
 
         <!--pumpkin head model by Rafi Ankur at https://poly.google.com/view/cggu6F8hvCm-->
