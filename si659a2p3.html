@@ -89,10 +89,23 @@ AFRAME.registerComponent('fuse_wp-listener', {
   </script>
 
 
+<!--code from https://stackoverflow.com/questions/44590227/a-frame-physics-system-custom-physics-materials-->
+<!--<script>
+    var world = $('a-scene')[0].systems.physics.world;
+    var firstMaterial = new CANNON.Material("firstMaterial");
+    $('#jack2')[0].body.material=firstMaterial;
+
+  var secondCM = new CANNON.ContactMaterial(firstMaterial
+  [restitution = 1000]); 
+  world.addContactMaterial(secondCM);
+
+</script>-->
+
+
 </head>
 
 <body>
-    <a-scene physics="friction: 0.1; restitution: 0.8">
+    <a-scene physics="friction: 0.1; restitution: 1">
     <!---<a-scene sound="src: #ghost_party; loop: true; on: click; rolloffFactor: 0; volume:0.3">-->
         <a-asset>
             <!--haunted house model by Maker Moose at https://sketchfab.com/models/8278ebd4786c462cb2621385a91ee365-->    
@@ -112,28 +125,27 @@ AFRAME.registerComponent('fuse_wp-listener', {
 
               <a-mixin id="touchme"  hoverable grabbable stretchable draggable
               event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true"
-              event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"></a-mixin>
+              event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false"
+              ></a-mixin>
 
 
         </a-asset>
+
+        <a-text value="Sainy Alafaireet" position="-1 3 -4"></a-text>
 
         <a-entity gltf-model=#hhouse static-body position="0 0 -20" scale=".5 .5 .5" shadow="receive: true; cast:false"></a-entity>
         <a-entity environment= "preset: starry"></a-entity>
 
 
-       <!-- <a-box id = "jack2" dynamic-body mixin="touchme" mass="1" position="0 1 -1.5" scale="2 2 1" shadow="cast: true">
-            <a-animation attribute="rotation"
-               dur="1000"
-               to="0 360 0"
-               easing="linear"
-               begin="fuse_jack">
+        <a-box id="jack2" dynamic-body="sphereRadius:NaN" mixin="touchme" mass="1" position="1.98866 0.99888 -0.32679" scale="2 2 1" shadow="" rotation="0.08559605771528253 -0.06909564606363403 -0.00003350988913092417" hoverable="" grabbable="maxGrabbers:NaN" stretchable="" draggable="" event-set__hoveron="[object Object]" event-set__hoveroff="[object Object]" event-set__grabon="[object Object]" event-set__graboff="[object Object]" material="" geometry="" velocity="" transparent="false">
+            <a-animation attribute="rotation" dur="1000" to="0 360 0" easing="linear" begin="fuse_jack">
             </a-animation>
-        </a-box>-->
+        </a-box>
 
 
 
-        <!--pumpkin head model by Rafi Ankur at https://poly.google.com/view/cggu6F8hvCm-->
-        <a-entity id = "jack" fuse_jack-listener dynamic-body mixin="touchme" mass="1" position="0 1 -1" scale=".005 .005 .005" gpoly="polyid:cggu6F8hvCm; API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo;" shadow="cast: true">
+        <!--pumpkin head model by Google Poly at https://poly.google.com/view/cggu6F8hvCm-->
+        <a-entity id = "jack" fuse_jack-listener dynamic-body mass="1" position="0 1 -3" scale=".005 .005 .005" gpoly="polyid:cggu6F8hvCm; API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo;" shadow="cast: true">
       </a-entity>  
 
         <!--gravestone model by Ian MacGillivray at https://poly.google.com/view/fCeGs6ZRSVp-->
@@ -155,7 +167,7 @@ AFRAME.registerComponent('fuse_wp-listener', {
         <a-entity id="lantern_right" position="6.77346 6.3368 -13.19289" gpoly="polyid:6lpNbvA7Mj8;API_KEY:AIzaSyAvchkb7QS5ZatB2NttfnCKXtqvyB-NQOo" shadow="" obj-model="obj:https://poly.googleapis.com/downloads/6lpNbvA7Mj8/fxYBG8niUK9/model.obj;mtl:https://poly.googleapis.com/downloads/6lpNbvA7Mj8/fxYBG8niUK9/materials.mtl"></a-entity>
         
           <!-- ground collider keeps objets from falling -->
-      <a-box static-body width=100 height=0.001 depth=100 visible="false"></a-box>
+      <a-box id="floor" static-body width=100 height=0.001 depth=100 color="purple" position="0 -.1 0"></a-box>
 
         <a-light type="ambient" color="#222" intensity="2.0"></a-light>
         <a-light id="light_left" color="yellow" position="-3.55553 6.96878 -11.48506" intensity="1.5" light="type:point; castShadow:true shadowCameraVisible: true"></a-light>
@@ -184,7 +196,7 @@ AFRAME.registerComponent('fuse_wp-listener', {
 
           </a-box>
 
-         <!-- <a-box id="waypoint_start" fuse_wp-listener position="0 1 0" rotation="-180 90 0" width="1" height="1" color="green" material="opacity:0.75" geometry="">
+         <!--<a-box id="waypoint_start" fuse_wp-listener position="0 1 0" rotation="-180 90 0" width="1" height="1" color="green" material="opacity:0.75" geometry="">
             <a-animation attribute="position"
             dur="1000"
             to="0 1.4 0"
@@ -204,7 +216,7 @@ AFRAME.registerComponent('fuse_wp-listener', {
          </a-animation>
           </a-box>
 
-          <a-plane position="0 -2.4 0" rotation="-90 -90 0" scale ="500 500 500" material="opacity: 0.0; transparent: true" static-body ></a-plane>
+         
 
             <!-- hand controls -->
     <a-entity id="left-hand" mixin="touch" hand-controls="left" vive-controls="hand: left" oculus-touch-controls="hand: left" windows-motion-controls="hand: left"></a-entity>
